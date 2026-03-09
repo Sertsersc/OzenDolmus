@@ -1,0 +1,49 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodu indir
+        uses: actions/checkout@v4
+
+      - name: Java 17 kur
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Gradle Wrapper JAR indir
+        run: |
+          curl -L \
+            "https://repo.maven.apache.org/maven2/org/gradle/gradle-wrapper/8.4/gradle-wrapper-8.4.jar" \
+            -o gradle/wrapper/gradle-wrapper.jar 2>/dev/null || \
+          wget -q \
+            "https://services.gradle.org/distributions/gradle-8.4-bin.zip" \
+            -O /tmp/g.zip && \
+          unzip -p /tmp/g.zip "*/lib/gradle-wrapper.jar" > gradle/wrapper/gradle-wrapper.jar || true
+
+      - name: Gradle kurulumunu doğrula
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: "8.4"
+
+      - name: gradlew iznini ver
+        run: chmod +x gradlew
+
+      - name: APK build et
+        run: ./gradlew assembleDebug
+
+      - name: APK'yı indir (Artifacts)
+        uses: actions/upload-artifact@v4
+        with:
+          name: OzenDolmus-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30

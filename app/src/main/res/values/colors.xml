@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="arka_plan">#1A1A2E</color>
+    <color name="beyaz">#FFFFFF</color>
+    <color name="ozen1_renk">#E53935</color>
+    <color name="ozen2_renk">#1E88E5</color>
+    <color name="ozen3_renk">#43A047</color>
+    <color name="colorPrimary">#E53935</color>
+    <color name="colorPrimaryVariant">#B71C1C</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+</resources>
